@@ -54,11 +54,16 @@ export default class MqttSubscriberService {
       console.log('Registered');
     } catch (error) {
       console.error('Error to register');
+      console.error(error);
     }
   }
 
   private treatMeasurement(measurement : string) : TMeasurement {
     const { device_id, current, voltage, timestamp } = JSON.parse(measurement);
+
+    if (!device_id || !current || !voltage || !timestamp) {
+      throw Error('Bad request. device_id, current, voltage and timestamp are required!');
+    }
 
     const tMeasurement : TMeasurement = {
       device_id,
@@ -94,11 +99,16 @@ export default class MqttSubscriberService {
       console.log('Registered');
     } catch (error) {
       console.error('Error to register');
+      console.error(error);
     }
   }
 
   private treatStatus(status : string) : TStatus {
     const { device_id, state } = JSON.parse(status);
+
+    if (!device_id || state == undefined) {
+      throw Error('Bad request. device_id and state are required!');
+    }
 
     const tStatus : TStatus = {
       device_id,
