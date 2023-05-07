@@ -6,6 +6,11 @@ export const NO_CONNECTION_DB = new CustomError(
   'Without connection with database'
 );
 
+export const NO_CONNECTION_MQTT = new CustomError(
+  HttpStatusCodes.INTERNAL_SERVER_ERROR,
+  'Without connection with broker mqtt'
+);
+
 export const USER_NOTFOUND = new CustomError(
   HttpStatusCodes.NOT_FOUND,
   'User not found'
