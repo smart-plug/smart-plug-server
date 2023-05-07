@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import App from './App';
 import { NO_CONNECTION_DB, NO_CONNECTION_MQTT } from '../utils/errors/errorsList';
-import connectDB from '../utils/bdConnection';
-import mqttConnection from '../utils/mqttConnection';
+import connectDB from '../utils/connections/bdConnection';
+import mqttConnection from '../utils/connections/mqttConnection';
 import MqttSubscriberService from '../services/MqttSubscriberService';
 
 import Router from 'express';
