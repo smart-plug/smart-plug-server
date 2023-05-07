@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 import App from './App';
-// import mongoose from 'mongoose';
 import { NO_CONNECTION_DB, NO_CONNECTION_MQTT } from '../utils/errors/errorsList';
 import connectDB from '../utils/bdConnection';
 import mqttConnection from '../utils/mqttConnection';
+import MqttSubscriberService from '../services/MqttSubscriberService';
 
 import Router from 'express';
 import { Request as Req, Response as Res } from 'express';
@@ -19,7 +19,8 @@ try {
 }
 
 try {
-  mqttConnection();
+  const mqttClient = mqttConnection();
+  new MqttSubscriberService(mqttClient);
 } catch (error) {
   hasError = 'MQTT_ERROR';
   console.log(error);
