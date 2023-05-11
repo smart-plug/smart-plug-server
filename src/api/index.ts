@@ -4,6 +4,8 @@ import { NO_CONNECTION_DB, NO_CONNECTION_MQTT } from '../utils/errors/errorsList
 import connectDB from '../utils/connections/bdConnection';
 import mqttConnection from '../utils/connections/mqttConnection';
 import MqttSubscriberService from '../services/MqttSubscriberService';
+import ErrorHandler from '../middlewares/errors/ErrorHandler';
+import LoginRouter from '../routes/LoginRouter';
 
 import Router from 'express';
 import { Request as Req, Response as Res } from 'express';
@@ -28,6 +30,8 @@ try {
 
 const app = new App();
 
+const loginRouter = new LoginRouter();
+
 const indexRouter = Router().get('/', (req: Req, res: Res) => {
   if (hasError == 'DB_ERROR') {
     return res.status(NO_CONNECTION_DB.statusCode).json({ message: `${NO_CONNECTION_DB.message}` });
@@ -38,6 +42,9 @@ const indexRouter = Router().get('/', (req: Req, res: Res) => {
   return res.json({ message: 'Hello World!' });
 });
 app.addRouter(indexRouter);
+app.addRouter(loginRouter.router);
+
+app.addErrorHandler(ErrorHandler.handle);
 
 const port = process.env.PORT || 3000;
 app.startServer(`${port}`);

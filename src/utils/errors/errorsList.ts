@@ -16,9 +16,9 @@ export const USER_NOTFOUND = new CustomError(
   'User not found'
 );
 
-export const USER_INVALID = new CustomError(
+export const USER_INVALID_PASSWORD = new CustomError(
   HttpStatusCodes.UNAUTHORIZED,
-  'Invalid username or password'
+  'Invalid password'
 );
 
 export const USER_UNAUTHORIZED = new CustomError(
@@ -26,12 +26,12 @@ export const USER_UNAUTHORIZED = new CustomError(
   'User does not have the right permission'
 );
 
-export const TOKEN_NOTFOUND = new CustomError(
+export const AUTHORIZATION_NOTFOUND = new CustomError(
   HttpStatusCodes.UNAUTHORIZED,
-  'Token not found'
+  'Authorization not found'
 );
 
-export const TOKEN_INVALID = new CustomError(
+export const AUTHORIZATION_INVALID = new CustomError(
   HttpStatusCodes.UNAUTHORIZED,
-  'Token is invalid'
+  'Authorization is invalid'
 );
