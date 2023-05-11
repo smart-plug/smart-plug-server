@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import TMeasurement from '../../utils/types/TMeasurement';
 
 const MeasurementSchema = new mongoose.Schema<TMeasurement>({
-  device_id: { type: Number, required: true },
+  deviceId: { type: Number, required: true },
   current: { type: Number, required: true },
   voltage: { type: Number, required: true },
   reading: { type: Date, required: true }

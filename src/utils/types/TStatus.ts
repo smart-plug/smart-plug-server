@@ -1,5 +1,5 @@
 type TStatus = {
-  device_id: number,
+  deviceId: number,
   state: boolean
 }
 

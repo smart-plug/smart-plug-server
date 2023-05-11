@@ -22,7 +22,7 @@ export default class LoginService {
     }
 
     const userPublic : TUserPublic = {
-      user_id: user.user_id,
+      userId: user.userId,
       name: user.name,
       username: user.username
     };

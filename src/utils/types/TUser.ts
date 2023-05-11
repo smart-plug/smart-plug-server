@@ -1,5 +1,5 @@
 export type TUser = {
-  user_id: number,
+  userId: number,
   name: string,
   username: string,
   password: string,
@@ -11,7 +11,7 @@ export type TLogin = {
 }
 
 export type TUserPublic = {
-  user_id: number,
+  userId: number,
   name: string,
   username: string
 }

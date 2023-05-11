@@ -66,9 +66,9 @@ export default class MqttSubscriberService {
     }
 
     const tMeasurement : TMeasurement = {
-      device_id,
-      current,
-      voltage,
+      deviceId: device_id,
+      current: current,
+      voltage: voltage,
       reading: new Date(timestamp)
     };
 
@@ -89,10 +89,10 @@ export default class MqttSubscriberService {
     try {
       const tStatus = this.treatStatus(status);
 
-      const statusRegister = await Status.findOne({ device_id: tStatus.device_id });
+      const statusRegister = await Status.findOne({ deviceId: tStatus.deviceId });
 
       if (statusRegister) {
-        await Status.updateOne({ device_id: tStatus.device_id }, tStatus);
+        await Status.updateOne({ deviceId: tStatus.deviceId }, tStatus);
       } else {
         await Status.create(tStatus);
       }
@@ -111,8 +111,8 @@ export default class MqttSubscriberService {
     }
 
     const tStatus : TStatus = {
-      device_id,
-      state
+      deviceId: device_id,
+      state: state
     };
 
     return tStatus;

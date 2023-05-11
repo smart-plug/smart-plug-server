@@ -1,5 +1,5 @@
 type TMeasurement = {
-  device_id: number,
+  deviceId: number,
   current: number,
   voltage: number,
   reading: Date

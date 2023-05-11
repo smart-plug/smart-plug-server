@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import TStatus from '../../utils/types/TStatus';
 
 const StatusSchema = new mongoose.Schema<TStatus>({
-  device_id: { type: Number, required: true },
+  deviceId: { type: Number, required: true },
   state: { type: Boolean, required: true }
 }, { versionKey: false });
 
