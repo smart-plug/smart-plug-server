@@ -35,3 +35,13 @@ export const AUTHORIZATION_INVALID = new CustomError(
   HttpStatusCodes.UNAUTHORIZED,
   'Authorization is invalid'
 );
+
+export const DEVICE_EXISTS = new CustomError(
+  HttpStatusCodes.BAD_REQUEST,
+  'Device already exists'
+);
+
+export const DEVICE_DONT_EXISTS = new CustomError(
+  HttpStatusCodes.BAD_REQUEST,
+  'Device dont exists'
+);

@@ -6,6 +6,7 @@ import mqttConnection from '../utils/connections/mqttConnection';
 import MqttSubscriberService from '../services/MqttSubscriberService';
 import ErrorHandler from '../middlewares/errors/ErrorHandler';
 import LoginRouter from '../routes/LoginRouter';
+import DeviceRouter from '../routes/DeviceRouter';
 
 import Router from 'express';
 import { Request as Req, Response as Res } from 'express';
@@ -31,6 +32,7 @@ try {
 const app = new App();
 
 const loginRouter = new LoginRouter();
+const deviceRouter = new DeviceRouter();
 
 const indexRouter = Router().get('/', (req: Req, res: Res) => {
   if (hasError == 'DB_ERROR') {
@@ -43,6 +45,7 @@ const indexRouter = Router().get('/', (req: Req, res: Res) => {
 });
 app.addRouter(indexRouter);
 app.addRouter(loginRouter.router);
+app.addRouter(deviceRouter.router);
 
 app.addErrorHandler(ErrorHandler.handle);
 
