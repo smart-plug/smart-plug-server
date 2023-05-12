@@ -10,3 +10,15 @@ export const authorizationSchema = Joi.object().keys({
 }).options({
   stripUnknown: true
 });
+
+export const userSchema = Joi.object().keys({
+  authorization: Joi.string().min(8).max(16).required(),
+  user_id: Joi.string().min(1).required()
+}).options({
+  stripUnknown: true
+});
+
+export const deviceSchema = Joi.object().keys({
+  deviceId: Joi.number().min(1).required(),
+  name: Joi.string().min(4)
+});
