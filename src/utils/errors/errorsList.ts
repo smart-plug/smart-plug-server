@@ -45,3 +45,8 @@ export const DEVICE_DONT_EXISTS = new CustomError(
   HttpStatusCodes.BAD_REQUEST,
   'Device dont exists'
 );
+
+export const DEVICE_STATUS_NOTFOUND = new CustomError(
+  HttpStatusCodes.NOT_FOUND,
+  'Device status not found'
+);
