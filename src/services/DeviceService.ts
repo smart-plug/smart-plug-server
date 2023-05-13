@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default class LoginService {
+export default class DeviceService {
   private _model: Model<TDevice>;
 
   constructor(model: Model<TDevice> = Device) {
@@ -54,8 +54,12 @@ export default class LoginService {
       throw DEVICE_DONT_EXISTS;
     }
 
-    const deviceFind = await this._model.find({ deviceId: device.deviceId, userId: device.userId }, {_id: 0});
+    const deviceFind = await this._model.findOne({ deviceId: device.deviceId, userId: device.userId }, {_id: 0});
 
-    return deviceFind[0];
+    if (!deviceFind) {
+      throw DEVICE_DONT_EXISTS;
+    }
+
+    return deviceFind;
   };
 }
