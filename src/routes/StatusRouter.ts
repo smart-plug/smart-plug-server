@@ -30,5 +30,6 @@ export default class DeviceRouter {
 
   private _routes = (): void => {
     this.router.get('/status/:deviceId', [this._validationHeader.validateHeader, this._validationHeader.validateUser], this._controller.get);
+    this.router.post('/status', [this._validationHeader.validateHeader, this._validationHeader.validateUser, this._validationBody.validateBody], this._controller.loadChange);
   };
 }
