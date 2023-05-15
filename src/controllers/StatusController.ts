@@ -2,7 +2,7 @@ import { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import HttpStatusCodes from '../utils/enums/HttpStatusCodes';
 import StatusService from '../services/StatusService';
 
-export default class DeviceController {
+export default class StatusController {
   private _service: StatusService;
 
   constructor(service: StatusService = new StatusService()) {
