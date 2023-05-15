@@ -5,7 +5,7 @@ import { DEVICE_STATUS_NOTFOUND } from '../utils/errors/errorsList';
 import mqttConnection from '../utils/connections/mqttConnection';
 import MqttPublisherService from '../services/MqttPublisherService';
 
-export default class StatusnService {
+export default class StatusService {
   private _model: Model<TStatus>;
 
   constructor(model: Model<TStatus> = Status) {
