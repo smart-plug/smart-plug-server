@@ -29,10 +29,20 @@ export default class DeviceService {
     return { deviceId, name, userId };
   };
 
-  public getAll = async (): Promise<Array<TDevice>> => {
-    const devices = await this._model.find({}, {_id: 0});
+  public getAll = async (userId: number): Promise<Array<TDevice>> => {
+    const devices = await this._model.find({ userId: userId }, {_id: 0});
 
     return devices;
+  };
+
+  public get = async (deviceId: number, userId: number): Promise<TDevice> => {
+    const deviceFind = await this._model.findOne({ deviceId: deviceId, userId: userId }, { _id: 0 });
+
+    if (!deviceFind) {
+      throw DEVICE_DONT_EXISTS;
+    }
+
+    return deviceFind;
   };
 
   public delete = async (device: TDevice): Promise<TDevice> => {

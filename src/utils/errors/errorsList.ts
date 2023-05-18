@@ -50,3 +50,13 @@ export const DEVICE_STATUS_NOTFOUND = new CustomError(
   HttpStatusCodes.NOT_FOUND,
   'Device status not found'
 );
+
+export const CONSUMPTION_DATA_NOTFOUND = new CustomError(
+  HttpStatusCodes.NOT_FOUND,
+  'Consumption data not found'
+);
+
+export const USER_DEVICE_NOTFOUND = new CustomError(
+  HttpStatusCodes.NOT_FOUND,
+  'The user does not have a registered device'
+);
