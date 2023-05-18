@@ -27,3 +27,7 @@ export const statusSchema = Joi.object().keys({
   deviceId: Joi.number().min(1).required(),
   state: Joi.boolean().required()
 });
+
+export const deviceIdSchema = Joi.object().keys({
+  deviceId: Joi.number().min(1).required()
+});
