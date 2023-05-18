@@ -27,7 +27,8 @@ export default class DeviceController {
 
   public getAll = async (req: Req, res: Res, next: Next) => {
     try {
-      const devices = await this._service.getAll();
+      const { user_id } = req.headers;
+      const devices = await this._service.getAll(Number(user_id));
       return res.status(HttpStatusCodes.OK).json({ message: 'Listed devices.', response: { devices: devices } });
     } catch (error) {
       return next(error);
