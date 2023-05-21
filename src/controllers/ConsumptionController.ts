@@ -13,7 +13,7 @@ export default class ConsumptionController {
     try {
       const { deviceId } = req.params;
       const consumption = await this._service.get(Number(deviceId));
-      return res.status(HttpStatusCodes.OK).json({ message: 'Consumption found.', response: { consumption: consumption } });
+      return res.status(HttpStatusCodes.OK).json({ message: 'Consumption found.', response: consumption });
     } catch (error) {
       return next(error);
     }
