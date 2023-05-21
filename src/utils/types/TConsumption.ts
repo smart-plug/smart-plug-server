@@ -13,6 +13,11 @@ export type TConsumptionFilter = {
   endDate: Date
 }
 
+export type TConsumptionFilterString = {
+  startDate: string,
+  endDate: string
+}
+
 export type TConsumptionAllData = {
   consumptions: Array<TConsumption>,
   accumulatedConsumption: number,

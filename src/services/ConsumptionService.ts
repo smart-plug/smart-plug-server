@@ -2,7 +2,7 @@ import TMeasurement from '../utils/types/TMeasurement';
 import { Model } from 'mongoose';
 import Measurement from '../models/mongoose/Measurement';
 import { CONSUMPTION_DATA_NOTFOUND } from '../utils/errors/errorsList';
-import { TConsumption, TConsumptionCalculated, TConsumptionAllData } from '../utils/types/TConsumption';
+import { TConsumption, TConsumptionCalculated, TConsumptionAllData, TConsumptionFilterString, TConsumptionFilter } from '../utils/types/TConsumption';
 
 export default class ConsumptionService {
   private _model: Model<TMeasurement>;
@@ -11,8 +11,14 @@ export default class ConsumptionService {
     this._model = model;
   }
 
-  public get = async (deviceId: number): Promise<TConsumptionCalculated> => {
-    const measurements = await this._model.find({ deviceId: deviceId }).sort({ reading: 1 });
+  public get = async (deviceId: number, consumptionFilterString: TConsumptionFilterString): Promise<TConsumptionCalculated> => {
+    const consumptionFilter = this.treatFilter(consumptionFilterString);
+    const measurements = await this._model.find({ deviceId: deviceId }).where({
+      reading: {
+        $gte: consumptionFilter.startDate,
+        $lt: consumptionFilter.endDate
+      }
+    }).sort({ reading: 1 });
 
     if (measurements.length < 2) {
       throw CONSUMPTION_DATA_NOTFOUND;
@@ -29,6 +35,46 @@ export default class ConsumptionService {
 
     return consumptionsAllData;
   };
+
+  private treatFilter(consumptionFilterString: TConsumptionFilterString): TConsumptionFilter {
+    const DATE_SEPARATOR = '-';
+    if (consumptionFilterString.startDate == '' || consumptionFilterString.endDate == '' ||
+     consumptionFilterString.startDate.length < 8 || consumptionFilterString.endDate.length < 8 ||
+     consumptionFilterString.startDate.length > 10 || consumptionFilterString.endDate.length > 10 ||
+     consumptionFilterString.startDate.split(DATE_SEPARATOR).length - 1 < 2 || consumptionFilterString.endDate.split(DATE_SEPARATOR).length - 1 < 2) {
+      return this.defaultFilter();
+    }
+
+    const startDateTimestamp = Date.parse(consumptionFilterString.startDate);
+    const endDateTimestamp = Date.parse(consumptionFilterString.endDate);
+
+    if (isNaN(startDateTimestamp) || isNaN(endDateTimestamp)) {
+      return this.defaultFilter();
+    }
+
+    if (startDateTimestamp > endDateTimestamp) {
+      return this.defaultFilter();
+    }
+
+    const consumptionFilter: TConsumptionFilter = {
+      startDate: new Date(startDateTimestamp),
+      endDate: new Date(endDateTimestamp)
+    };
+
+    return consumptionFilter;
+  }
+
+  private defaultFilter(): TConsumptionFilter {
+    const dateNow = new Date();
+    const firstDay = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+    const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 0);
+    const consumptionFilter : TConsumptionFilter = {
+      startDate: firstDay,
+      endDate: lastDay
+    };
+
+    return consumptionFilter;
+  }
 
   private consumptionCalcutation(measurements: Array<TMeasurement>): TConsumptionCalculated {
     const MILLISECONDS_IN_HOUR = 3600000;
