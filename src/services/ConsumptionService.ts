@@ -12,7 +12,7 @@ export default class ConsumptionService {
   }
 
   public get = async (deviceId: number): Promise<TConsumptionCalculated> => {
-    const measurements = await this._model.find({ deviceId: deviceId });
+    const measurements = await this._model.find({ deviceId: deviceId }).sort({ reading: 1 });
 
     if (measurements.length < 2) {
       throw CONSUMPTION_DATA_NOTFOUND;
@@ -31,12 +31,14 @@ export default class ConsumptionService {
   };
 
   private consumptionCalcutation(measurements: Array<TMeasurement>): TConsumptionCalculated {
+    const MILLISECONDS_IN_HOUR = 3600000;
     let accumulatedConsumption = 0;
     const consumptions: Array<TConsumption> = [];
 
     for (let count = 1; count < measurements.length; count ++) {
       const medianCurrent = (measurements[count - 1].current + measurements[count].current) / 2;
-      const medianConsumption = medianCurrent * measurements[count].voltage;
+      const timeVariationHours = Math.abs(+measurements[count].reading - +measurements[count - 1].reading) / MILLISECONDS_IN_HOUR;
+      const medianConsumption = medianCurrent * measurements[count].voltage * timeVariationHours;
       const consumption: TConsumption = {
         deviceId: measurements[count].deviceId,
         current: medianCurrent,
