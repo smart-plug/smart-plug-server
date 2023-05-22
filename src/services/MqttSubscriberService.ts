@@ -3,7 +3,7 @@ import * as mqtt from 'mqtt';
 import Measurement from '../models/mongoose/Measurement';
 import TMeasurement from '../utils/types/TMeasurement';
 import Status from '../models/mongoose/Status';
-import TStatus from '../utils/types/TStatus';
+import { TStatus } from '../utils/types/TStatus';
 
 dotenv.config();
 

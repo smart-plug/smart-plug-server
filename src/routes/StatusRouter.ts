@@ -43,6 +43,6 @@ export default class DeviceRouter {
   private _routes = (): void => {
     const middlewaresBasic = [this._validationHeader.validateHeader, this._validationHeader.validateUser];
     this.router.get('/status/:deviceId', middlewaresBasic.concat([this._validationParam.validateParams, this._validationParam.validateUserDevice]), this._controller.get);
-    this.router.post('/status', middlewaresBasic.concat([this._validationBody.validateBody, this._validationCustom.validateUserDevice]), this._controller.loadChange);
+    this.router.post('/status', middlewaresBasic.concat([this._validationBody.validateBody, this._validationCustom.validateUserDevice]), this._controller.change);
   };
 }

@@ -1,6 +1,8 @@
-type TStatus = {
+export type TStatus = {
   deviceId: number,
   state: boolean
 }
 
-export default TStatus;
+export type TStatusMqtt = {
+  state: boolean
+}

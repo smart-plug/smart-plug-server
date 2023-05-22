@@ -1,4 +1,4 @@
-import TStatus from '../utils/types/TStatus';
+import { TStatus } from '../utils/types/TStatus';
 import { Model } from 'mongoose';
 import Status from '../models/mongoose/Status';
 import { DEVICE_STATUS_NOTFOUND } from '../utils/errors/errorsList';
@@ -22,7 +22,7 @@ export default class StatusService {
     return device;
   };
 
-  public loadChange = async (status: TStatus): Promise<TStatus> => {
+  public change = async (status: TStatus): Promise<TStatus> => {
     const device = await this._model.findOne({ deviceId: status.deviceId });
 
     if (!device) {

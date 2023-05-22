@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import TStatus from '../../utils/types/TStatus';
+import { TStatus } from '../../utils/types/TStatus';
 
 const StatusSchema = new mongoose.Schema<TStatus>({
   deviceId: { type: Number, required: true },

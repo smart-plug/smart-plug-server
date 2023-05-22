@@ -19,10 +19,10 @@ export default class StatusController {
     }
   };
 
-  public loadChange = async (req: Req, res: Res, next: Next) => {
+  public change = async (req: Req, res: Res, next: Next) => {
     try {
       const { deviceId, state } = req.body;
-      const status = await this._service.loadChange({ deviceId, state });
+      const status = await this._service.change({ deviceId, state });
       return res.status(HttpStatusCodes.OK).json({ message: 'Load change request made successfully.', response: { status: status } });
     } catch (error) {
       return next(error);
