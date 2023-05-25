@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 export default class App {
   private _app: express.Application;
@@ -6,6 +7,7 @@ export default class App {
   constructor() {
     this._app = express();
     this._app.use(express.json());
+    this._app.use(cors());
   }
 
   public startServer = (PORT: string | number) =>

@@ -23,12 +23,6 @@ export default class StatusService {
   };
 
   public change = async (status: TStatus): Promise<TStatus> => {
-    const device = await this._model.findOne({ deviceId: status.deviceId });
-
-    if (!device) {
-      throw DEVICE_STATUS_NOTFOUND;
-    }
-
     const mqttClient = await mqttConnection();
     const mqttPublisherService = new MqttPublisherService(mqttClient);
     mqttPublisherService.publishStatusUpdate(status);

@@ -69,7 +69,7 @@ export default class MqttSubscriberService {
       deviceId: device_id,
       current: current,
       voltage: voltage,
-      reading: new Date(timestamp)
+      reading: new Date(timestamp * 1000)
     };
 
     return tMeasurement;
