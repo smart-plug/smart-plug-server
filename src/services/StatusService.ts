@@ -1,7 +1,6 @@
 import { TStatus } from '../utils/types/TStatus';
 import { Model } from 'mongoose';
 import Status from '../models/mongoose/Status';
-import { DEVICE_STATUS_NOTFOUND } from '../utils/errors/errorsList';
 import mqttConnection from '../utils/connections/mqttConnection';
 import MqttPublisherService from '../services/MqttPublisherService';
 
@@ -16,7 +15,12 @@ export default class StatusService {
     const device = await this._model.findOne({ deviceId: deviceId }, {_id: 0});
 
     if (!device) {
-      throw DEVICE_STATUS_NOTFOUND;
+      const deviceWithFalseState: TStatus = {
+        deviceId: deviceId,
+        state: false
+      };
+
+      return deviceWithFalseState;
     }
 
     return device;
