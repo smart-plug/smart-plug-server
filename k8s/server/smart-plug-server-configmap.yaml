@@ -8,8 +8,10 @@ data:
   DB_PASSWORD: <password>
   DB_CLUSTER: <cluster>
   DB_NAME: smart_plug
-  MQTT_HOST: test.mosquitto.org
+  MQTT_HOST: mosquitto-internal-svc
   MQTT_PORT: "1883"
+  MQTT_USER: admin
+  MQTT_PASSWORD: OTk5NTBjMTUtNzY3NC00NDUyLTkyZjktMmYwYjU5Yzc3M2Yw
   MQTT_TOPIC_MEASUREMENT: smart-plug/measurement
   MQTT_TOPIC_STATUS: smart-plug/status
   MQTT_TOPIC_CHANGE_STATUS: smart-plug/change_status

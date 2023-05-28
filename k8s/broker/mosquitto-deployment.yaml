@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: mosquitto
+      labels:
+        app: mosquitto
+    spec:
+      containers:
+        - name: mosquitto-container
+          image: eclipse-mosquitto:2.0
+          ports:
+            - containerPort: 1883
+            - containerPort: 9001
+          volumeMounts:
+            - name: mosquitto-data
+              mountPath: /mosquitto/data
+            - name: mosquitto-log
+              mountPath: /mosquitto/log
+            - name: config-file
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+            - name: password-file
+              mountPath: /mosquitto/config/passwd
+              subPath: passwd
+      volumes:
+        - name: config-file
+          configMap:
+            name: mosquitto-config   
+        - name: mosquitto-data
+          emptyDir: {}
+        - name: mosquitto-log
+          emptyDir: {}
+        - name: password-file
+          configMap:
+            name: mosquitto-passwords 
+  selector:
+    matchLabels:
+      app: mosquitto
