@@ -41,9 +41,11 @@ export default class MqttSubscriberService {
     measurement
     {
       "device_id": 123,
-      "current": 1.5,
+      "current": 2,
       "voltage": 127,
-      "timestamp": 1807110465663
+      "active_power": 0.5,
+      "power_factor": 0.7,
+      "timestamp": 1685282528
     }
     */
     console.log('Try register measurement: ');
@@ -59,16 +61,18 @@ export default class MqttSubscriberService {
   }
 
   private treatMeasurement(measurement : string) : TMeasurement {
-    const { device_id, current, voltage, timestamp } = JSON.parse(measurement);
+    const { device_id, current, voltage, active_power, power_factor, timestamp } = JSON.parse(measurement);
 
-    if (!device_id || !current || !voltage || !timestamp) {
-      throw Error('Bad request. device_id, current, voltage and timestamp are required!');
+    if (!device_id || !current || !voltage || !active_power || !power_factor || !timestamp) {
+      throw Error('Bad request. device_id, current, voltage, active_power, power_factor and timestamp are required!');
     }
 
     const tMeasurement : TMeasurement = {
       deviceId: device_id,
       current: current,
       voltage: voltage,
+      activePower: active_power,
+      powerFactor: power_factor,
       reading: new Date(timestamp * 1000)
     };
 

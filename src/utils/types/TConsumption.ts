@@ -2,9 +2,10 @@ export type TConsumption = {
   deviceId: number,
   current: number,
   voltage: number,
+  activePower: number,
+  powerFactor: number,
+  accumulatedConsumption: number,
   reading: Date,
-  potency: number,
-  consumption: number,
   originalData: boolean
 }
 
@@ -20,7 +21,7 @@ export type TConsumptionFilterString = {
 
 export type TConsumptionAllData = {
   consumptions: Array<TConsumption>,
-  accumulatedConsumption: number,
+  totalAccumulatedConsumption: number,
   consumptionVariation: number,
   projectedAccumulatedConsumption: number
 }
