@@ -4,11 +4,13 @@ import * as mqtt from 'mqtt';
 dotenv.config();
 
 function mqttConnection() {
-  const clientId = 'client' + Math.random().toString(36).substring(7);
+  const clientId = 'client-' + Math.random().toString(36).substring(7);
 
   const hostURL = `mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`;
 
-  const options = {
+  const options: mqtt.IClientOptions = {
+    username: process.env.MQTT_USER,
+    password: process.env.MQTT_PASSWORD,
     keepalive: 60,
     clientId: clientId,
     protocolId: 'MQTT',
