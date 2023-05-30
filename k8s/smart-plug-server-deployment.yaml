@@ -1,21 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mosquitto-deployment
+  name: smart-plug-server-deployment
 spec:
   replicas: 1
   template:
     metadata:
-      name: mosquitto
+      name: smart-plug-server
       labels:
-        app: mosquitto
+        app: smart-plug-server
     spec:
       containers:
+        - name: smart-plug-server-container
+          image: smartplug.azurecr.io/smart-plug-server-dev:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: smart-plug-server-configmap
         - name: mosquitto-container
           image: eclipse-mosquitto:2.0
           ports:
             - containerPort: 1883
-            - containerPort: 9001
           volumeMounts:
             - name: mosquitto-data
               mountPath: /mosquitto/data
@@ -27,6 +33,8 @@ spec:
             - name: password-file
               mountPath: /mosquitto/config/passwd
               subPath: passwd
+      imagePullSecrets:
+        - name: acr-secret
       volumes:
         - name: config-file
           configMap:
@@ -37,7 +45,7 @@ spec:
           emptyDir: {}
         - name: password-file
           configMap:
-            name: mosquitto-passwords 
+            name: mosquitto-passwords
   selector:
     matchLabels:
-      app: mosquitto
+      app: smart-plug-server

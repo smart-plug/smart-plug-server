@@ -2,9 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: smart-plug-server-external-svc
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: smartplugserver
 spec:
   type: LoadBalancer
   ports:
-    - port: 3000
+    - name: http
+      port: 3000
+    - name: mqtt
+      port: 1883
   selector:
     app: smart-plug-server

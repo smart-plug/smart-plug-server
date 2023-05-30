@@ -4,11 +4,11 @@ metadata:
   name: smart-plug-server-configmap
 data:
   PORT: "3000"
-  DB_USER: <user>
-  DB_PASSWORD: <password>
-  DB_CLUSTER: <cluster>
+  DB_USER: <db-user>
+  DB_PASSWORD: <db-password>
+  DB_CLUSTER: <db-cluster>
   DB_NAME: smart_plug
-  MQTT_HOST: mosquitto-internal-svc
+  MQTT_HOST: "127.0.0.1"
   MQTT_PORT: "1883"
   MQTT_USER: admin
   MQTT_PASSWORD: OTk5NTBjMTUtNzY3NC00NDUyLTkyZjktMmYwYjU5Yzc3M2Yw
