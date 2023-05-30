@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: smart-plug-server-external-svc
   annotations:
-    service.beta.kubernetes.io/azure-dns-label-name: smartplugserver
+    service.beta.kubernetes.io/azure-dns-label-name: smart-plug-server
 spec:
   type: LoadBalancer
   ports:
