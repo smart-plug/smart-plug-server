@@ -63,7 +63,7 @@ export default class MqttSubscriberService {
   private treatMeasurement(measurement : string) : TMeasurement {
     const { device_id, current, voltage, active_power, power_factor, timestamp } = JSON.parse(measurement);
 
-    if (!device_id || !current || !voltage || !active_power || !power_factor || !timestamp) {
+    if (device_id === undefined || current === undefined || voltage === undefined || active_power === undefined || power_factor === undefined || timestamp === undefined) {
       throw Error('Bad request. device_id, current, voltage, active_power, power_factor and timestamp are required!');
     }
 
@@ -110,7 +110,7 @@ export default class MqttSubscriberService {
   private treatStatus(status : string) : TStatus {
     const { device_id, state } = JSON.parse(status);
 
-    if (!device_id || state == undefined) {
+    if (!device_id || state === undefined) {
       throw Error('Bad request. device_id and state are required!');
     }
 
