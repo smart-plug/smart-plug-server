@@ -13,6 +13,7 @@ export default class ConsumptionService {
 
   public get = async (deviceId: number, consumptionFilterString: TConsumptionFilterString): Promise<TConsumptionAllData> => {
     const consumptionFilter = this.treatFilter(consumptionFilterString);
+    console.log(consumptionFilter);
     const measurements = await this._model.find({ deviceId: deviceId }).where({
       reading: {
         $gte: consumptionFilter.startDate,
@@ -38,6 +39,8 @@ export default class ConsumptionService {
 
   private treatFilter(consumptionFilterString: TConsumptionFilterString): TConsumptionFilter {
     const DATE_SEPARATOR = '-';
+    const OFFSET_TIMEZONE_BRASILIA = 3;
+
     if (consumptionFilterString.startDate == '' || consumptionFilterString.endDate == '' ||
      consumptionFilterString.startDate.length < 8 || consumptionFilterString.endDate.length < 8 ||
      consumptionFilterString.startDate.length > 10 || consumptionFilterString.endDate.length > 10 ||
@@ -57,9 +60,14 @@ export default class ConsumptionService {
     }
 
     const endDate = new Date(endDateTimestamp);
+    endDate.setHours(endDate.getHours() + OFFSET_TIMEZONE_BRASILIA);
     endDate.setDate(endDate.getDate() + 1);
+
+    const startDate = new Date(startDateTimestamp);
+    startDate.setHours(startDate.getHours() + OFFSET_TIMEZONE_BRASILIA);
+
     const consumptionFilter: TConsumptionFilter = {
-      startDate: new Date(startDateTimestamp),
+      startDate: startDate,
       endDate: endDate
     };
 
@@ -69,7 +77,7 @@ export default class ConsumptionService {
   private defaultFilter(): TConsumptionFilter {
     const dateNow = new Date();
     const firstDay = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
-    const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 0);
+    const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
     const consumptionFilter : TConsumptionFilter = {
       startDate: firstDay,
       endDate: lastDay
