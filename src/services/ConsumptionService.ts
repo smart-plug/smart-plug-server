@@ -56,9 +56,11 @@ export default class ConsumptionService {
       return this.defaultFilter();
     }
 
+    const endDate = new Date(endDateTimestamp);
+    endDate.setDate(endDate.getDate() + 1);
     const consumptionFilter: TConsumptionFilter = {
       startDate: new Date(startDateTimestamp),
-      endDate: new Date(endDateTimestamp)
+      endDate: endDate
     };
 
     return consumptionFilter;
