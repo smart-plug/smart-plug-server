@@ -13,7 +13,6 @@ export default class ConsumptionService {
 
   public get = async (deviceId: number, consumptionFilterString: TConsumptionFilterString): Promise<TConsumptionAllData> => {
     const consumptionFilter = this.treatFilter(consumptionFilterString);
-    console.log(consumptionFilter);
     const measurements = await this._model.find({ deviceId: deviceId }).where({
       reading: {
         $gte: consumptionFilter.startDate,
