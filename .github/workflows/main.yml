@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on: workflow_dispatch
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        login-server: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
+    
+    - name: Build and Push the Docker image
+      run: |
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/smart-plug-server-dev:latest
+        docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/smart-plug-server-dev
+
+    - name: Azure login
+      uses: azure/login@v1.4.3
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Set AKS context
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: '${{ secrets.AKS_RESOURCE_GROUP }}' 
+        cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+    
+    - name: Update ConfigMap values with secrets
+      uses: rmeneely/update-yaml@v1
+      with:
+        infile: './k8s/smart-plug-server-configmap.yaml'
+        # varlist - a comma separated list of variable values. e.g version=v1.2.3,image.tag=latest
+        varlist: 'data.DB_USER=${{ secrets.MONGODB_USERNAME }},data.DB_PASSWORD=${{ secrets.MONGODB_PASSWORD }},data.DB_CLUSTER=${{ secrets.MONGODB_CLUSTERNAME }}'
+
+    - name: Deploy Kubernetes environment
+      working-directory: ./k8s
+      run: |
+        kubectl apply -f .
+        kubectl rollout restart deployment smart-plug-server-deployment
