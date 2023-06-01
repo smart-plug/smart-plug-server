@@ -45,7 +45,7 @@ const indexRouter = Router().get('/', (req: Req, res: Res) => {
   if (hasError == 'MQTT_ERROR') {
     return res.status(NO_CONNECTION_MQTT.statusCode).json({ message: `${NO_CONNECTION_MQTT.message}` });
   }
-  return res.json({ message: 'Hello World!' });
+  return res.json({ message: 'Smart plug server' });
 });
 app.addRouter(indexRouter);
 app.addRouter(loginRouter.router);
