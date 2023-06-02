@@ -1,7 +1,6 @@
 import TMeasurement from '../utils/types/TMeasurement';
 import { Model } from 'mongoose';
 import Measurement from '../models/mongoose/Measurement';
-import { CONSUMPTION_DATA_NOTFOUND } from '../utils/errors/errorsList';
 import { TConsumption, TConsumptionCalculated, TConsumptionAllData, TConsumptionFilterString, TConsumptionFilter } from '../utils/types/TConsumption';
 
 export default class ConsumptionService {
@@ -21,8 +20,13 @@ export default class ConsumptionService {
       }
     }).sort({ reading: 1 });
 
-    if (measurements.length < 2) {
-      throw CONSUMPTION_DATA_NOTFOUND;
+    if (measurements.length == 0) {
+      return {
+        consumptions: [],
+        totalAccumulatedConsumption: 0,
+        consumptionVariation: 0,
+        projectedAccumulatedConsumption: 0
+      };
     }
 
     const consumptions = this.consumptionCalcutation(measurements);

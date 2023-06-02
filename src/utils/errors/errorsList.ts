@@ -37,7 +37,7 @@ export const AUTHORIZATION_INVALID = new CustomError(
 );
 
 export const DEVICE_EXISTS = new CustomError(
-  HttpStatusCodes.BAD_REQUEST,
+  HttpStatusCodes.UNAUTHORIZED,
   'Device already exists'
 );
 
@@ -46,17 +46,7 @@ export const DEVICE_DONT_EXISTS = new CustomError(
   'Device dont exists'
 );
 
-export const DEVICE_STATUS_NOTFOUND = new CustomError(
-  HttpStatusCodes.NOT_FOUND,
-  'Device status not found'
-);
-
-export const CONSUMPTION_DATA_NOTFOUND = new CustomError(
-  HttpStatusCodes.NOT_FOUND,
-  'Consumption data not found'
-);
-
 export const USER_DEVICE_NOTFOUND = new CustomError(
-  HttpStatusCodes.NOT_FOUND,
+  HttpStatusCodes.UNAUTHORIZED,
   'The user does not have a registered device'
 );

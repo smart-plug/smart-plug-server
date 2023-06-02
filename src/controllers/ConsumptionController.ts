@@ -19,7 +19,7 @@ export default class ConsumptionController {
         endDate: endDate ? endDate.toString() : ''
       };
       const consumption = await this._service.get(Number(deviceId), consumptionFilter);
-      return res.status(HttpStatusCodes.OK).json({ message: 'Consumption found.', response: consumption });
+      return res.status(HttpStatusCodes.OK).json({ message: 'Consumption.', response: consumption });
     } catch (error) {
       return next(error);
     }
