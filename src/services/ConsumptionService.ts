@@ -83,32 +83,31 @@ export default class ConsumptionService {
   private consumptionCalcutation(measurements: Array<TMeasurement>): TConsumptionCalculated {
     const MILLISECONDS_IN_HOUR = 3600000;
     let accumulatedConsumption = 0;
-    const consumptions: Array<TConsumption> = [{
-      deviceId: measurements[0].deviceId,
-      current: measurements[0].current,
-      voltage: measurements[0].voltage,
-      activePower: measurements[0].activePower,
-      powerFactor: measurements[0].powerFactor,
-      accumulatedConsumption: 0,
-      reading: measurements[0].reading,
-      originalData: true
-    }];
+    const consumptions: Array<TConsumption> = [];
 
-    for (let count = 1; count < measurements.length; count ++) {
-      const timeVariationHours = Math.abs(+measurements[count].reading - +measurements[count - 1].reading) / MILLISECONDS_IN_HOUR;
-      const averagePower = (measurements[count].activePower + measurements[count - 1].activePower) / 2;
-      const simpsonRule = (measurements[count - 1].activePower + 4 * averagePower + measurements[count].activePower) / 6;
-      accumulatedConsumption += simpsonRule * timeVariationHours;
+    for (let count = 0; count < measurements.length; count ++) {
       const consumption: TConsumption = {
         deviceId: measurements[count].deviceId,
         current: measurements[count].current,
         voltage: measurements[count].voltage,
-        activePower: measurements[count].activePower,
-        powerFactor: measurements[count].powerFactor,
-        accumulatedConsumption: accumulatedConsumption,
+        activePower: measurements[count].activePower || measurements[count].voltage * measurements[count].current,
+        powerFactor: measurements[count].powerFactor || 1.0,
         reading: measurements[count].reading,
+        accumulatedConsumption: 0,
         originalData: true
       };
+
+      if (count > 0) {
+        const lastConsumption = consumptions[count - 1];
+        const timeVariationHours = Math.abs(+consumption.reading - +lastConsumption.reading) / MILLISECONDS_IN_HOUR;
+        const averagePower = (consumption.activePower + lastConsumption.activePower) / 2;
+        const simpsonRule = (lastConsumption.activePower + 4 * averagePower + consumption.activePower) / 6;
+
+        accumulatedConsumption += simpsonRule * timeVariationHours;
+
+        consumption.accumulatedConsumption = accumulatedConsumption;
+      }
+
       consumptions.push(consumption);
     }
 
