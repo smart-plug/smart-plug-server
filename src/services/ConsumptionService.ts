@@ -103,7 +103,7 @@ export default class ConsumptionService {
         const averagePower = (consumption.activePower + lastConsumption.activePower) / 2;
         const simpsonRule = (lastConsumption.activePower + 4 * averagePower + consumption.activePower) / 6;
 
-        accumulatedConsumption += simpsonRule * timeVariationHours;
+        accumulatedConsumption += simpsonRule * timeVariationHours / 1000;
 
         consumption.accumulatedConsumption = accumulatedConsumption;
       }
